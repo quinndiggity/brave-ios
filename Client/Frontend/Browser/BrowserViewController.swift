@@ -1265,6 +1265,14 @@ class BrowserViewController: UIViewController {
                         break
                     }
                     
+                    if url.isErrorPageURL {
+                        if ErrorPageHelper.certificateError(for: url) != 0 {
+                            tab.secureContentState = .insecure
+                            topToolbar.secureContentState = .insecure
+                            break
+                        }
+                    }
+                    
                     if url.isReaderModeURL || url.isLocal {
                         tab.secureContentState = .unknown
                         topToolbar.secureContentState = .unknown
