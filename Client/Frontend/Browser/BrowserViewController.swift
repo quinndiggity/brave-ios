@@ -3412,6 +3412,7 @@ extension BrowserViewController: PreferencesObserver {
              Preferences.Shields.httpsEverywhere.key,
              Preferences.Shields.blockScripts.key,
              Preferences.Shields.blockPhishingAndMalware.key,
+             Preferences.Shields.googleSafeBrowsing.key,
              Preferences.Shields.blockImages.key,
              Preferences.Shields.fingerprintingProtection.key,
              Preferences.Shields.useRegionAdBlock.key:
