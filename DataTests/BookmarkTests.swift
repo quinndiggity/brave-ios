@@ -274,6 +274,34 @@ class BookmarkTests: CoreDataTestCase {
         XCTAssertEqual(Bookmark.getAllBookmarks().count, bookmarksCount)
     }
     
+    func testHasFavorites() {
+        XCTAssertFalse(Bookmark.hasFavorites)
+        
+        insertBookmarks(amount: 3)
+        
+        XCTAssertFalse(Bookmark.hasFavorites)
+        
+        createAndWait(url: URL(string: "http://brave.com"), title: "Brave", isFavorite: true)
+        
+        XCTAssert(Bookmark.hasFavorites)
+    }
+    
+    func testGetAllFavorites() {
+        createAndWait(url: URL(string: "http://example.com/1"), title: "Example1", isFavorite: true)
+        insertBookmarks(amount: 3)
+        createAndWait(url: URL(string: "http://example.com/2"), title: "Example2", isFavorite: true)
+        
+        let allFavorites = Bookmark.allFavorites
+        XCTAssertEqual(allFavorites.count, 2)
+        
+        XCTAssert(allFavorites.contains(where: { $0.title == "Example1" }))
+        XCTAssert(allFavorites.contains(where: { $0.title == "Example2" }))
+        XCTAssertFalse(allFavorites.contains(where: { $0.title == "Example3" }))
+        
+        createAndWait(url: URL(string: "http://example.com/3"), title: "Example3", isFavorite: true)
+        XCTAssertEqual(Bookmark.allFavorites.count, 3)
+    }
+    
     // MARK: - Update
     
     func testUpdateBookmark() {
@@ -449,6 +477,30 @@ class BookmarkTests: CoreDataTestCase {
         let syncOrdersSorted = bookmarksSorted.compactMap { $0.syncOrder }
         
         XCTAssertEqual(syncOrdersSorted, expectedOrder)
+    }
+    
+    func testReplaceFavorites() {
+        let regularBookmarksCount = 3
+        insertBookmarks(amount: regularBookmarksCount)
+        createAndWait(url: URL(string: "http://example.com/1"), title: "Example1", isFavorite: true)
+        createAndWait(url: URL(string: "http://example.com/2"), title: "Example2", isFavorite: true)
+        
+        let newFavorites = [(URL(string: "http://example.com/3")!, "Example3"),
+                            (URL(string: "http://example.com/4")!, "Example4"),
+                            (URL(string: "http://example.com/5")!, "Example5")]
+        
+        backgroundSaveAndWaitForExpectation {
+            Bookmark.replaceFavorites(with: newFavorites)
+        }
+        
+        let updatedFavorites = Bookmark.allFavorites
+        XCTAssertEqual(updatedFavorites.count, newFavorites.count)
+        
+        XCTAssert(updatedFavorites.contains(where: { $0.title == "Example4" }))
+        XCTAssertFalse(updatedFavorites.contains(where: { $0.title == "Example1" }))
+        
+        // Make sure we don't delete any normal bookmarks by accident.
+        XCTAssertEqual(Bookmark.getAllBookmarks().count, regularBookmarksCount)
     }
     
     // MARK: - Delete
