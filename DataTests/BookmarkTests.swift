@@ -479,7 +479,7 @@ class BookmarkTests: CoreDataTestCase {
         XCTAssertEqual(syncOrdersSorted, expectedOrder)
     }
     
-    func testReplaceFavorites() {
+    func testForceOverwriteFavorites() {
         let regularBookmarksCount = 3
         insertBookmarks(amount: regularBookmarksCount)
         createAndWait(url: URL(string: "http://example.com/1"), title: "Example1", isFavorite: true)
@@ -490,7 +490,7 @@ class BookmarkTests: CoreDataTestCase {
                             (URL(string: "http://example.com/5")!, "Example5")]
         
         backgroundSaveAndWaitForExpectation {
-            Bookmark.replaceFavorites(with: newFavorites)
+            Bookmark.forceOverwriteFavorites(with: newFavorites)
         }
         
         let updatedFavorites = Bookmark.allFavorites

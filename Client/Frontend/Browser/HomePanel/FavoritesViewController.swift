@@ -335,7 +335,7 @@ class FavoritesViewController: UIViewController, Themeable {
             switch background?.backgroundType {
             case .withBrandLogo:
                 return true
-            default:
+            case .regular, .withQRCode, .none:
                 return false
             }
         }()

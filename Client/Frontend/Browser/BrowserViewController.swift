@@ -294,21 +294,23 @@ class BrowserViewController: UIViewController {
                     return
                 }
                 
-                let exactSameFavorites = Bookmark.allFavorites .filter {
-                    guard let urlString = $0.url, let url = URL(string: urlString),
-                        let title = $0.displayTitle else {
-                            return false
-                    }
-                    
-                    return defaultFavorites.contains(where: { defaultFavorite in
-                        defaultFavorite.url == url && defaultFavorite.title == title
-                    })
+                let exactSameFavorites = Bookmark.allFavorites
+                    .filter {
+                        guard let urlString = $0.url,
+                            let url = URL(string: urlString),
+                            let title = $0.displayTitle else {
+                                return false
+                        }
+                        
+                        return defaultFavorites.contains(where: { defaultFavorite in
+                            defaultFavorite.url == url && defaultFavorite.title == title
+                        })
                 }
                 
                 if currentFavorites.count == exactSameFavorites.count {
                     let customFavorites = sites.compactMap { $0.asFavoriteSite }
                     Preferences.NewTabPage.initialFavoritesHaveBeenReplaced.value = true
-                    Bookmark.replaceFavorites(with: customFavorites)
+                    Bookmark.forceOverwriteFavorites(with: customFavorites)
                 }
             }
         }

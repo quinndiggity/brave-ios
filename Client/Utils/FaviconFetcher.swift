@@ -69,8 +69,6 @@ open class FaviconFetcher: NSObject, XMLParserDelegate {
         
         do {
             let colorString = try String(contentsOf: backgroundFilePath)
-                .replacingOccurrences(of: "#", with: "")
-            
             let colorFromHex = UIColor(colorString: colorString)
             
             if FileManager.default.fileExists(atPath: folder.appendingPathComponent(baseDomain).path) {

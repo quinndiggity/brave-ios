@@ -229,11 +229,9 @@ extension NTPDataSource: PreferencesObserver {
         case customThemePref.key:
             downloader.delegate = self
             
-            var installedThemes = installedThemesPref.value
-            
+            let installedThemes = installedThemesPref.value
             if let theme = customThemePref.value, !installedThemes.contains(theme) {
-                installedThemes.append(theme)
-                installedThemesPref.value = installedThemes
+                installedThemesPref.value = installedThemesPref.value + [theme]
             }
         default:
             break
