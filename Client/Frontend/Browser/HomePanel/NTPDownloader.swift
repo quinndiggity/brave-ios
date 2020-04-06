@@ -23,7 +23,7 @@ class NTPDownloader {
         
         var resourceBaseURL: URL? {
             let baseUrl = AppConstants.buildChannel.isPublic ? "https://mobile-data.s3.brave.com/"
-                : "https://brave-ntp-crx-input-dev.s3-us-west-2.amazonaws.com/"
+                : "https://mobile-data-dev.s3.brave.software"
             
             switch self {
             case .superReferral(let code):
