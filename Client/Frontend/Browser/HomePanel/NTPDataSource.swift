@@ -164,7 +164,8 @@ class NTPDataSource {
         // Increment regardless, this is a counter, not an index, so smallest should be `1`
         backgroundRotationCounter += 1
         
-        return (backgroundSet[backgroundIndex], backgroundType)
+        guard let bgWithIndex = backgroundSet[safe: backgroundIndex] else { return nil }
+        return (bgWithIndex, backgroundType)
     }
     
     private func loadData(file: String) -> Data? {
