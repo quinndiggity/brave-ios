@@ -18,7 +18,10 @@ typedef NS_ENUM(NSInteger, BATContributionStep) {
   BATContributionStepStepCompleted = -1,
   BATContributionStepStepNo = 0,
   BATContributionStepStepStart = 1,
-  BATContributionStepStepSuggestions = 2,
+  BATContributionStepStepPrepare = 2,
+  BATContributionStepStepReserve = 3,
+  BATContributionStepStepExternalTransaction = 4,
+  BATContributionStepStepCreds = 5,
 } NS_SWIFT_NAME(ContributionStep);
 
 
@@ -210,11 +213,10 @@ typedef NS_ENUM(NSInteger, BATCredsBatchStatus) {
 
 typedef NS_ENUM(NSInteger, BATSKUOrderStatus) {
   BATSKUOrderStatusNone = 0,
-  BATSKUOrderStatusCreated = 1,
-  BATSKUOrderStatusPending = 2,
-  BATSKUOrderStatusPaid = 3,
-  BATSKUOrderStatusFulfilled = 4,
-  BATSKUOrderStatusCanceled = 5,
+  BATSKUOrderStatusPending = 1,
+  BATSKUOrderStatusPaid = 2,
+  BATSKUOrderStatusFulfilled = 3,
+  BATSKUOrderStatusCanceled = 4,
 } NS_SWIFT_NAME(SKUOrderStatus);
 
 
